@@ -1,0 +1,30 @@
+@CHARSET "UTF-8";
+body {
+	font-family:helvetica;
+	font-size: 12px;
+}
+
+#taskToCompl {
+	display:inline;
+	color:blue;
+	font-weight: bold;
+}
+#taskCompleted {
+	display:inline;
+	color:red;
+	font-weight: bold;
+}
+
+#displayInfo {
+	padding:5px;
+	display:block;
+	font-size: 12px;
+}
+#datePicker {
+	width:80px;
+}
+
+[name^=task_] {
+	color:red;
+	font-size:16px;
+}
