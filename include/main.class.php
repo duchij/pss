@@ -29,7 +29,7 @@ class main {
     function showPage()
     {
         $data = $this->db->table("SELECT * FROM pss_ulohy");
-        $this->smarty->assign("vysetrenia",$data);
+        $this->smarty->assign("vysetrenia",$data["table"]);
         $this->smarty->display("main.tpl");
     }
     

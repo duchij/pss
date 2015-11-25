@@ -18,7 +18,7 @@ body {
 #displayInfo {
 	padding:5px;
 	display:block;
-	font-size: 12px;
+	font-size: larger;
 }
 #datePicker {
 	width:80px;
@@ -27,4 +27,15 @@ body {
 [name^=task_] {
 	color:red;
 	font-size:16px;
+}
+
+
+
+
+.overInfo {
+	font-size:larger;
+}
+
+#zoznam_dl{
+	width:250px;
 }

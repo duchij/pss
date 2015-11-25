@@ -2,38 +2,26 @@
 <html>
 <head>
 <meta charset="utf-8">
-
-<!-- Modernizr -->
-<script src="gdw/js/libs/modernizr-2.6.2.min.js"></script>
-<!-- framework css -->
-<!--[if gt IE 9]><!-->
-<link type="text/css" rel="stylesheet" href="gdw/css/groundwork.css">
-<!--<![endif]-->
-<!--[if lte IE 9]>
-<link type="text/css" rel="stylesheet" href="gdw/css/groundwork-core.css">
-<link type="text/css" rel="stylesheet" href="gdw/css/groundwork-type.css">
-<link type="text/css" rel="stylesheet" href="gdw/css/groundwork-ui.css">
-<link type="text/css" rel="stylesheet" href="gdw/css/groundwork-anim.css">
-<link type="text/css" rel="stylesheet" href="gdw/css/groundwork-ie.css">
-<![endif]-->
 {include file="css.tpl"}
 </head>
 
 <body>
-<div class="row">
 
+<div id="dialogBox"></div>
 <div id="debugData">{$error}<p>{$sql}</p></div>
 <div id="content">
-<h1>Zoznam praktických úloh pre splenenie PŠŠ</h1>
+<div class="row">
+<h1>Online LogBook</h1>
 <hr>
 <div id="tabs">
 <ul>
     <li><a href="#tab1">Vloženie vyšetrenia</a></li>
     <li><a href="#tab2">Pridanie skupiny vyšetrenia</a></li>
+    <li><a href="#tab3">Prehľad</a></li>
 </ul>
 <div id="tab1">
 <div class="one half">
-Zoznam vyšetrení: <select id="zoznam_dl" onchange="getCountAmount();">
+<h2 class="asphalt">Zoznam vyšetrení:</h2> <select id="zoznam_dl" onchange="getCountAmount();">
     <option id="-">-</option>
 	{foreach from=$vysetrenia key=k item=vys}
 	<option value="{$vys.id}">{$vys.name}</option>
@@ -46,8 +34,8 @@ Zoznam vyšetrení: <select id="zoznam_dl" onchange="getCountAmount();">
 
 <h1>Vlož vyšetrenie...</h1>
 	   Dátum:<input type="text" value="" name="task_date" id="datePicker" readonly="readonly" >
-	   Poznámka:<input type="text" value="" name="task_comment" style="width:250px">
-	   <button id="saveButton" class="green button">Ulož</button>
+	   Poznámka:<input type="text" value="" name="task_comment" id="task_comment" style="width:250px">
+	   <button onclick="saveNewCompletedTask();" class="green button" id="saveCompletedTask_btn">Ulož</button>
 </div>
 </div>
 <div id="tab2">
@@ -73,15 +61,13 @@ Zoznam vyšetrení: <select id="zoznam_dl" onchange="getCountAmount();">
 </div>
 <div class="one half">
 </div>	    
-
-
+</div>
+<div id="tab3">
+<div id="overView"></div>
 </div>
 </div>
 </div>
 </div> <!-- End of Content -->
 {include file="scripts.tpl"}
-
-
-	
 </body>
 </html>

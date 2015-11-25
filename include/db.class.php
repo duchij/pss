@@ -31,7 +31,7 @@ class db{
             $result["msg"] = $this->db->lastErrorMsg();
             
         }
-        return $table;
+        return $result;
             
     }
     
