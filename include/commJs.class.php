@@ -85,7 +85,7 @@ class commJs extends main{
     
     private function getPathClassModule($path)
     {
-        $pathArr = split("/",$path);
+        $pathArr = explode("/",$path);
         $pathLn = count($pathArr);
         
         $class = $pathArr[$pathLn-1];
@@ -116,6 +116,7 @@ class commJs extends main{
             if (isset($result["QUEUE"])){
                 
                 foreach ($result["QUEUE"] as &$row ){
+					
                     $module = $row["callClass"]["modulePath"];
                     
                     $classCall = $this->loadClass($module);

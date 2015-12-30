@@ -15,22 +15,31 @@ body {
 	font-weight: bold;
 }
 
+
+#taskSubToCompl {
+	display:inline;
+	color:blue;
+	font-weight: bold;
+}
+#taskSubCompleted {
+	display:inline;
+	color:red;
+	font-weight: bold;
+}
+
 #displayInfo {
 	padding:5px;
 	display:block;
 	font-size: larger;
 }
 #datePicker {
-	width:80px;
+	width:100px;
 }
 
-[name^=task_] {
+input[name*=task_] {
 	color:red;
-	font-size:16px;
+	font-size:15px;
 }
-
-
-
 
 .overInfo {
 	font-size:larger;
@@ -38,4 +47,12 @@ body {
 
 #zoznam_dl{
 	width:250px;
+}
+
+
+#listView {
+	height:300px;
+	visibility:visible;
+	overflow:scroll;
+	
 }

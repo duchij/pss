@@ -5,7 +5,7 @@
 <tr>
     <td class="overInfo" style="color:red;">{$row.done}</td>
     <td class="overInfo">{$row.nazov}</td>
-    <td class="overInfo" style="color:blue;">{$row.toDone}</td>
+    <td class="overInfo" style="color:blue;">{$row.toDone-$row.done}</td>
 </tr>
 {/foreach}
 </table>

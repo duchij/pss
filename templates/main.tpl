@@ -28,7 +28,19 @@
 	{/foreach}
 
 </select>
-<div id="displayInfo">Počet splnení:<div id="taskToCompl"></div> Splnených:<div id="taskCompleted"></div></div>
+<div id="displayInfo">Počet splnení:<div id="taskToCompl"></div> Splnených:<div id="taskCompleted"></div>
+<div id="subTasks">
+<hr>
+<p class="normal asphalt">Podúlohy k hlavnej (vybranej) úlohe...</p> 
+    <select id="subTasks_dl" style="width:200px;" onchange="getSubCountAmount();">
+        <option id="-">-</option>
+    </select>
+    <div id="displaySubInfo">Počet splnení:<div id="taskSubToCompl"></div> Splnených:<div id="taskSubCompleted"></div></div>
+</div>
+
+
+<p class="small"><div id="comment_lbl"></div></p>
+</div>
 </div>
 <div class="one half ">
 
@@ -39,10 +51,11 @@
 </div>
 </div>
 <div id="tab2">
-<h2>Vytvor novú skupinu vyšetrení</h2>
+<h2>Vytvor novú skupinu vyšetrení <span id="taskType"></span></h2>
 <hr>
 <div class="one half">
 <table class="responsive" data-max="14">
+<input type="hidden" value="" id="updateTaskId">
     <tr>
         <td><p class="large">Názov úlohy:</p></td><td><input type="text" name="task_name" id="task_name" value=""></td>
     </tr>
@@ -50,16 +63,20 @@
         <td><p class="large">Počet vykonaní:</p></td><td><input type="text" name="task_count" id="task_count" onchange="checkNum('task_count');" id="task_count"></td>
     </tr>
     <tr>
-        <td><p class="large">Krátky popis:</p></td><td><input type="text" name="task_comment" id="task_comment" value=""></td>
+        <td><p class="large">Krátky popis:</p></td><td><input type="text" name="task_comment" id="task_comment_tab2" value=""></td>
     </tr>
     <tr>
-        <td colspan="2">
-            <button id="saveTaskBtn" class="green button">Uložiť</button>
+        <td>
+            <button id="saveTaskBtn" class="green button medium">Uložiť/Zmeniť</button>
+        </td>
+        <td>
+            <button id="saveSubTask" class="blue button medium" style="display: none;" onclick="insertNewSubTask();" >Uložiť ako podúlohu</button>
         </td>
     </tr>
 </table>
 </div>
 <div class="one half">
+    <div id="editView"></div>
 </div>	    
 </div>
 <div id="tab3">

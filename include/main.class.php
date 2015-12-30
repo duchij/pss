@@ -6,15 +6,21 @@ class main {
     var $log;
     
     function __construct(){
-        //echo "jk";
+        
         $this->smarty = &$GLOBALS["smarty"];
+		
         $this->db = new db();
+		
         $this->log = new log();
+		
     }
     
     function start($data){
+		//echo "tu";
+		
         if (isset($data["a"])){
             if (method_exists($this, $data["a"])){
+				
                 $this->$data["a"]($data);
             }
             else{
@@ -28,7 +34,8 @@ class main {
     
     function showPage()
     {
-        $data = $this->db->table("SELECT * FROM pss_ulohy");
+		
+        $data = $this->db->table("SELECT * FROM pss_ulohy WHERE parent_id IS NULL");
         $this->smarty->assign("vysetrenia",$data["table"]);
         $this->smarty->display("main.tpl");
     }
@@ -56,7 +63,9 @@ class main {
     {
         $this->log->logData($data);
         $comm = $this->loadClass("commJs");
-        $comm->getRespond($data["data"],$data["client"]);
+		//$data["client"]="rjson";
+		$this->log->logData($data,false,"che");
+        $comm->getRespond($data["data"],"rjson");
         
     }
     

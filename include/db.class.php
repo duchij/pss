@@ -1,13 +1,25 @@
 <?php
-require_once 'log.class.php';
 
-class db{
+
+class db {
     var $db;
     var $log;
     
     function __construct(){
-        $this->db = new SQLite3(DB_DIR."pss.sqlite");
-        $this->log = new log();
+		
+		$this->log = &$GLOBALS["log"];
+		
+		try{
+			$this->db = new PDO("sqlite:".DB_DIR."\pss.sqlite");
+		}
+        catch (PDOException $e)
+		{
+			$this->log->logData($e->getMessage(),false,"chyba v inicializacii db");
+			exit;
+		}
+		
+		//echo "ll";
+        
     }
     
     function table($query){
@@ -17,7 +29,7 @@ class db{
         $i=0;
         
         if ($results){
-            while ($row = $results->fetchArray(SQLITE3_ASSOC))
+            while ($row = $results->fetch(PDO::FETCH_ASSOC))
             {
                 $table[$i] = $row;
                 $i++;
@@ -28,17 +40,56 @@ class db{
         }
         else{
             $result["status"] = false;
-            $result["msg"] = $this->db->lastErrorMsg();
+			$tmp = $this->db->errorInfo();
+            $result["msg"] = $tmp[2];
             
         }
         return $result;
             
     }
     
+    function execute($query)
+    {
+        $res = $this->db->exec($query);
+        
+        if ($res){
+            return array("status"=>true,"result"=>"deleted");
+        }
+        else
+        {
+            $tmp = $this->db->errorInfo();
+            return array("status"=>false,"result"=> $tmp[2]);
+        }
+    }
+    
+    function update($data,$table,$updateItem,$updateId){
+        $result = array();
+        $setColVal = array();
+        
+        foreach ($data as $key=>$value){
+            $escStr = trim($value);
+            array_push($setColVal,"{$key}='{$escStr}'");
+        }
+        $valStr = join(",",$setColVal);
+        
+        $query = sprintf("UPDATE %s SET %s WHERE %s=%d",$table,$valStr,$updateItem,$updateId);
+        
+        $res = $this->db->exec($query);
+        
+        if ($res){
+            return array("status"=>true,"result"=>"ok");
+        }
+        else{
+			$tmp = $this->db->errorInfo();
+            return array("status"=>false,"result"=>$tmp[2]);
+        }
+        
+        
+    }
     
     function row($query)
     {
-        if (strpos($query,"LIMIT 1")==false){
+		if (strpos($query,"LIMIT 1")==false){
             $query." LIMIT 1";
         }
         
@@ -46,11 +97,12 @@ class db{
         
         $results = $this->db->query($query);
         $this->log->logData($results);
-        if ($results!=false){
-            return $results->fetchArray(SQLITE3_ASSOC);
+        if ($results){
+            return $results->fetch(PDO::FETCH_ASSOC);
         }
         else{
-            $this->log->logData($this->db->lastErrorMsg());
+            $tmp = $this->db->errorInfo();
+            $this->log->logData($tmp[2],fasle,"error in row");
             return false;
         }
     }
@@ -71,7 +123,7 @@ class db{
         {
             array_push($cols,$key);
             
-            $escStr = $this->db->escapeString(trim($value));
+            $escStr = trim($value);
             array_push($values,"'{$escStr}'");
         }
         
@@ -87,12 +139,13 @@ class db{
         if ($res){
             $result["status"] = true;
             if ($lastId){
-                $result["lastId"] = $this->db->lastInsertRowID();
+                $result["lastId"] = $this->db->lastInsertId();
             }
         }
         else{
             $result["status"] = false;
-            $result["msg"] = $this->db->lastErrorMsg();
+            $tmp = $this->db->errorInfo();
+            $result["msg"] = $tmp[2];
             $result["sql"] = $sql;
         }
         
